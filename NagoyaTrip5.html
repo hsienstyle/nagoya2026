@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2026 名古屋親子賞櫻 v6.0</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #F7F9FB;
+            --card-bg: #FFFFFF;
+            --primary-color: #2C3E50;
+            --accent-color: #CCA43B; /* 星宇金 */
+            --sakura-color: #FF6B81; /* 櫻花粉 */
+            --lego-color: #0984E3;   /* 樂高藍 */
+            --text-main: #333333;
+            --text-sub: #7F8C8D;
+            --nav-bg: #FFFFFF;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
+            --radius: 16px;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding-bottom: 90px; /* Space for bottom nav */
+        }
+
+        /* Header & Countdown */
+        header {
+            background: var(--card-bg);
+            padding: 20px 20px 10px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-bottom: 3px solid var(--accent-color);
+            text-align: center;
+        }
+        
+        h1 { margin: 0; font-size: 18px; font-weight: 800; color: var(--primary-color); }
+        .countdown-box {
+            background: linear-gradient(135deg, #2C3E50 0%, #34495E 100%);
+            color: #CCA43B;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 14px;
+            display: inline-block;
+            font-weight: bold;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* Common Components */
+        .container { padding: 15px; max-width: 600px; margin: 0 auto; }
+        .section-title { font-size: 16px; font-weight: 700; margin: 25px 0 10px; color: var(--primary-color); border-left: 4px solid var(--accent-color); padding-left: 10px; display: flex; align-items: center; }
+        
+        .day-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            position: relative;
+            border-top: 4px solid #ddd;
+            transition: transform 0.2s;
+        }
+        .day-card:active { transform: scale(0.99); }
+        .day-card.sakura { border-top-color: var(--sakura-color); }
+        .day-card.move { border-top-color: var(--accent-color); }
+        .day-card.lego { border-top-color: var(--lego-color); }
+
+        .day-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px; }
+        .day-date { font-weight: 800; font-size: 17px; color: var(--primary-color); }
+
+        .activity-item { display: flex; gap: 15px; margin-bottom: 20px; position: relative; }
+        .activity-item:last-child { margin-bottom: 0; }
+        .activity-item::before {
+            content: ''; position: absolute; left: 24px; top: 28px; bottom: -30px; width: 2px; background: #f0f0f0; z-index: 0;
+        }
+        .day-card .activity-item:last-child::before { display: none; }
+
+        .time-badge { min-width: 50px; text-align: center; font-size: 13px; color: var(--text-sub); padding-top: 2px; z-index: 1; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+        .card-content { flex: 1; background: #fff; z-index: 1; }
+        .place-name { font-size: 15px; font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; flex-wrap: wrap; line-height: 1.4; }
+        
+        .tag { display: inline-block; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 6px; font-weight: normal; white-space: nowrap; vertical-align: middle; }
+        .tag-spot { background: #E3F2FD; color: #1565C0; }
+        .tag-food { background: #FFF3E0; color: #E65100; }
+        .tag-shop { background: #F3E5F5; color: #7B1FA2; }
+        .tag-move { background: #E8F5E9; color: #2E7D32; }
+        .tag-warn { background: #FFEBEE; color: #C62828; font-weight: bold; animation: pulse 2s infinite; }
+
+        .desc { font-size: 13px; color: var(--text-sub); line-height: 1.5; margin-bottom: 8px; }
+
+        .nav-btn {
+            display: inline-flex; align-items: center; background: #F1F3F4; color: #1967D2; padding: 6px 12px; border-radius: 20px; font-size: 12px; text-decoration: none; font-weight: 600; margin-top: 6px; transition: background 0.2s;
+        }
+        .nav-btn:active { background: #e0e0e0; }
+        .nav-btn i { margin-right: 5px; }
+
+        /* A/B Switch */
+        .toggle-container { display: flex; background: #eee; border-radius: 10px; padding: 3px; margin-bottom: 15px; }
+        .toggle-btn { flex: 1; padding: 10px; border: none; background: none; cursor: pointer; font-weight: 600; color: #7F8C8D; border-radius: 8px; font-size: 13px; }
+        .toggle-btn.active { background: white; color: var(--primary-color); box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .plan-content { display: none; }
+        .plan-content.active { display: block; animation: fadeIn 0.3s ease; }
+
+        /* Module: Translation Cards */
+        .trans-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .trans-card {
+            background: white; border: 1px solid #eee; border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; transition: transform 0.1s;
+        }
+        .trans-card:active { transform: scale(0.95); background: #f9f9f9; }
+        .trans-emoji { font-size: 32px; display: block; margin-bottom: 5px; }
+        .trans-jp { font-size: 16px; font-weight: bold; color: var(--primary-color); display: block; margin-bottom: 2px; }
+        .trans-zh { font-size: 12px; color: #7F8C8D; }
+
+        /* Module: Kids Missions */
+        .mission-item {
+            background: white; border: 2px solid #eee; border-radius: 12px; padding: 12px; margin-bottom: 10px; display: flex; align-items: center; cursor: pointer; transition: all 0.2s;
+        }
+        .mission-item.completed { border-color: #2ECC71; background: #F0FFF4; }
+        .mission-checkbox {
+            width: 24px; height: 24px; border: 2px solid #ccc; border-radius: 50%; margin-right: 15px; display: flex; align-items: center; justify-content: center; color: transparent; flex-shrink: 0;
+        }
+        .mission-item.completed .mission-checkbox { background: #2ECC71; border-color: #2ECC71; color: white; }
+        .mission-text strong { display: block; font-size: 14px; margin-bottom: 2px; }
+        .mission-text span { font-size: 12px; color: #7F8C8D; }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-top: 1px solid #eee; display: flex; justify-content: space-around; padding: 10px 0 20px; box-shadow: 0 -5px 15px rgba(0,0,0,0.03); z-index: 200;
+        }
+        .nav-item { text-align: center; font-size: 10px; color: #B2BEC3; text-decoration: none; flex: 1; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+        .nav-item.active { color: var(--primary-color); font-weight: 700; }
+        .nav-icon { font-size: 22px; display: block; margin-bottom: 4px; transition: transform 0.2s; }
+        .nav-item.active .nav-icon { transform: translateY(-2px); color: var(--accent-color); }
+
+        .tab-content { display: none; animation: fadeIn 0.2s ease; }
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Nagoya Trip 2026 <span style="background:var(--accent-color); color:white; padding:2px 6px; border-radius:4px; font-size:10px;">v6.0</span></h1>
+        <div id="countdown" class="countdown-box">
+            距離出發還有: 計算中...
+        </div>
+    </header>
+
+    <div id="tab-schedule" class="tab-content active">
+        <div class="container">
+            
+            <div class="day-card move">
+                <div class="day-header">
+                    <span class="day-date">Day 1 | 3/29 (日)</span>
+                    <span>✈️ 抵達</span>
+                </div>
+                <div class="activity-item">
+                    <div class="time-badge">18:45</div>
+                    <div class="card-content">
+                        <div class="place-name">抵達中部國際機場 <span class="tag tag-move">入境</span></div>
+                        <div class="desc">T1 航廈入境。</div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Chubu+Centrair+International+Airport" target="_blank" class="nav-btn"><i class="fas fa-map-marker-alt"></i> 機場位置</a>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="time-badge">19:30</div>
+                    <div class="card-content">
+                        <div class="place-name">Comfort Hotel 機場 <span class="tag tag-move">住宿</span></div>
+                        <div class="desc">位於機場旁，步行可達。晚餐在機場解決。</div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Comfort+Hotel+Central+International+Airport" target="_blank" class="nav-btn"><i class="fas fa-bed"></i> 飯店導航</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card sakura">
+                <div class="day-header">
+                    <span class="day-date">Day 2 | 3/30 (一)</span>
+                    <span>🌸 神宮與賞櫻</span>
+                </div>
+                <div class="activity-item">
+                    <div class="time-badge">09:30</div>
+                    <div class="card-content">
+                        <div class="place-name">移動至金山站 <span class="tag tag-move">名鐵</span></div>
+                        <div class="desc">飯店寄放行李。</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="time-badge">11:00</div>
+                    <div class="card-content">
+                        <div class="place-name">熱田神宮 <span class="tag tag-spot">散策</span></div>
+                        <div class="desc">午餐：宮寬麵 (Kishimen)。</div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Atsuta+Jingu" target="_blank" class="nav-btn"><i class="fas fa-torii-gate"></i> 神宮地圖</a>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="time-badge">16:00</div>
+                    <div class="card-content">
+                        <div class="place-name">鶴舞公園 <span class="tag tag-spot">賞櫻</span></div>
+                        <div class="desc">賞櫻百選，適合野餐。</div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Tsuruma+Park" target="_blank" class="nav-btn"><i class="fas fa-tree"></i> 公園位置</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card lego">
+                <div class="day-header">
+                    <span class="day-date">Day 3 | 3/31 (二)</span>
+                    <span>🎢 樂高樂園</span>
+                </div>
+                <div class="activity-item">
+                    <div class="time-badge">09:30</div>
+                    <div class="card-content">
+                        <div class="place-name">LEGOLAND Japan <span class="tag tag-spot">重點</span></div>
+                        <div class="desc">全日暢玩。請開啟官方 App 確認排隊時間。</div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=LEGOLAND+Japan" target="_blank" class="nav-btn"><i class="fas fa-map-marked-alt"></i> 樂園地圖</a>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="time-badge">18:00</div>
+                    <div class="card-content">
+                        <div class="place-name">ESCA 地下街 <span class="tag tag-food">晚餐</span></div>
+                        <div class="desc">備長鰻魚飯 / 矢場味噌豬排。</div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=ESCA+Underground+Shopping+Street" target="_blank" class="nav-btn"><i class="fas fa-utensils"></i> 地下街</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" style="border-top-color: #d35400;">
+                <div class="day-header">
+                    <span class="day-date">Day 4 | 4/1 (三)</span>
+                    <span>🐋 水族館與名城</span>
+                </div>
+                <div class="activity-item">
+                    <div class="time-badge">09:30</div>
+                    <div class="card-content">
+                        <div class="place-name">名古屋港水族館 <span class="tag tag-spot">景點</span></div>
+                        <div class="desc">看海豚秀與企鵝遊行。</div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Nagoya+Port+Aquarium" target="_blank" class="nav-btn"><i class="fas fa-fish"></i> 水族館</a>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="time-badge">12:45</div>
+                    <div class="card-content">
+                        <div class="place-name">LaLaport 名古屋港 <span class="tag tag-food">午餐</span></div>
+                        <div class="desc">3F 美食街。</div>
+                        <span class="tag tag-warn">⚠️ 注意用餐時間</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=LaLaport+Nagoya+Minato+AQULS" target="_blank" class="nav-btn"><i class="fas fa-utensils"></i> LaLaport</a>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="time-badge">15:00</div>
+                    <div class="card-content">
+                        <div class="place-name">名古屋城 <span class="tag tag-spot">古蹟</span></div>
+                        <div class="desc">務必 <span style="color:red;font-weight:bold;">16:00</span> 前進入本丸御殿。</div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Nagoya+Castle" target="_blank" class="nav-btn"><i class="fas fa-landmark"></i> 名古屋城</a>
+                    </div>
+                </div>
+                 <div class="activity-item">
+                    <div class="time-badge">18:00</div>
+                    <div class="card-content">
+                        <div class="place-name">世界的山將 (金山店) <span class="tag tag-food">晚餐</span></div>
+                        <div class="desc">夢幻手羽先。</div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Sekai+no+Yamachan+Kanayama" target="_blank" class="nav-btn"><i class="fas fa-drumstick-bite"></i> 餐廳位置</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card sakura">
+                <div class="day-header">
+                    <span class="day-date">Day 5 | 4/2 (四)</span>
+                    <span>🌸 雙方案擇一</span>
+                </div>
+                <div class="toggle-container">
+                    <button class="toggle-btn active" onclick="switchPlan('A', this)">方案 A (岡崎)</button>
+                    <button class="toggle-btn" onclick="switchPlan('B', this)">方案 B (長島)</button>
+                </div>
+                <div id="plan-A" class="plan-content active">
+                    <div class="activity-item">
+                        <div class="time-badge">09:30</div>
+                        <div class="card-content">
+                            <div class="place-name">岡崎城 <span class="tag tag-spot">賞櫻</span></div>
+                            <div class="desc">德川家康出生地。</div>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Okazaki+Castle" target="_blank" class="nav-btn"><i class="fas fa-map-marker-alt"></i> 岡崎城</a>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="time-badge">13:00</div>
+                        <div class="card-content">
+                            <div class="place-name">岡崎 AEON Mall <span class="tag tag-shop">購物</span></div>
+                            <a href="https://www.google.com/maps/search/?api=1&query=AEON+Mall+Okazaki" target="_blank" class="nav-btn"><i class="fas fa-shopping-bag"></i> AEON</a>
+                        </div>
+                    </div>
+                </div>
+                <div id="plan-B" class="plan-content">
+                    <div class="activity-item">
+                        <div class="time-badge">09:30</div>
+                        <div class="card-content">
+                            <div class="place-name">荒子川公園 <span class="tag tag-spot">賞櫻</span></div>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Arako+River+Park" target="_blank" class="nav-btn"><i class="fas fa-tree"></i> 公園位置</a>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="time-badge">11:30</div>
+                        <div class="card-content">
+                            <div class="place-name">長島 Outlet <span class="tag tag-shop">購物</span></div>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Mitsui+Outlet+Park+Jazz+Dream+Nagashima" target="_blank" class="nav-btn"><i class="fas fa-shopping-bag"></i> Outlet</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" style="border-top-color: #fdcb6e;">
+                 <div class="day-header">
+                    <span class="day-date">Day 6 | 4/3 (五)</span>
+                    <span>⛩️ 犬山與榮</span>
+                </div>
+                <div class="activity-item">
+                    <div class="time-badge">09:30</div>
+                    <div class="card-content">
+                        <div class="place-name">犬山城 & 城下町</div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Inuyama+Castle" target="_blank" class="nav-btn"><i class="fas fa-map-marker-alt"></i> 犬山城</a>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="time-badge">15:00</div>
+                    <div class="card-content">
+                        <div class="place-name">榮商圈 (Pokemon Center)</div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Pokemon+Center+Nagoya" target="_blank" class="nav-btn"><i class="fas fa-gamepad"></i> Pokemon</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card move">
+                 <div class="day-header">
+                    <span class="day-date">Day 7 | 4/4 (六)</span>
+                    <span>✈️ 返家</span>
+                </div>
+                <div class="activity-item">
+                    <div class="time-badge">14:00</div>
+                    <div class="card-content">
+                        <div class="place-name">Flight of Dreams</div>
+                        <div class="desc">波音 787 展區。</div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Flight+of+Dreams" target="_blank" class="nav-btn"><i class="fas fa-plane"></i> 飛機公園</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="tab-lang" class="tab-content">
+        <div class="container">
+            <h3 class="section-title"><i class="fas fa-language"></i> 生存日語卡</h3>
+            <p style="font-size:12px; color:#7F8C8D; margin-bottom:15px;">點擊卡片可模擬發音 (功能開發中，目前僅為展示)</p>
+            <div class="trans-grid">
+                <div class="trans-card">
+                    <span class="trans-emoji">🚽</span>
+                    <span class="trans-jp">トイレ</span>
+                    <span class="trans-zh">廁所在哪裡？</span>
+                </div>
+                <div class="trans-card">
+                    <span class="trans-emoji">💧</span>
+                    <span class="trans-jp">お水</span>
+                    <span class="trans-zh">請給我水</span>
+                </div>
+                <div class="trans-card">
+                    <span class="trans-emoji">🧾</span>
+                    <span class="trans-jp">お会計</span>
+                    <span class="trans-zh">我要結帳</span>
+                </div>
+                <div class="trans-card">
+                    <span class="trans-emoji">🥡</span>
+                    <span class="trans-jp">持ち帰り</span>
+                    <span class="trans-zh">我要外帶</span>
+                </div>
+                <div class="trans-card">
+                    <span class="trans-emoji">👶</span>
+                    <span class="trans-jp">子供用</span>
+                    <span class="trans-zh">兒童餐具/椅</span>
+                </div>
+                <div class="trans-card">
+                    <span class="trans-emoji">🌶️❌</span>
+                    <span class="trans-jp">辛くない</span>
+                    <span class="trans-zh">不要辣</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab-kids" class="tab-content">
+        <div class="container">
+            <h3 class="section-title" style="color:#0984E3;"><i class="fas fa-gamepad"></i> 小小探險家任務</h3>
+            <div id="mission-list">
+                </div>
+            
+            <h3 class="section-title" style="margin-top:30px;"><i class="fas fa-check-square"></i> 行李清單</h3>
+             <div id="packing-list">
+                 </div>
+        </div>
+    </div>
+
+    <div id="tab-tools" class="tab-content">
+        <div class="container">
+            <h3 class="section-title"><i class="fas fa-plane"></i> 航班資訊 (星宇)</h3>
+            <div class="day-card" style="padding:15px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                    <span>去程 JX838</span>
+                    <strong>14:55 ➝ 18:30</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between;">
+                    <span>回程 JX839</span>
+                    <strong>19:55 ➝ 22:00</strong>
+                </div>
+            </div>
+
+            <h3 class="section-title"><i class="fas fa-file-medical"></i> 緊急聯絡</h3>
+            <div class="day-card">
+                <p><strong>🚨 報警</strong>: 110</p>
+                <p><strong>🚑 救護車</strong>: 119</p>
+                <p><strong>🇹🇼 駐日代表處</strong>: +81-3-3280-7811</p>
+            </div>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('schedule', this)">
+            <span class="nav-icon"><i class="fas fa-calendar-alt"></i></span> 行程
+        </div>
+        <div class="nav-item" onclick="switchTab('lang', this)">
+            <span class="nav-icon"><i class="fas fa-comments"></i></span> 翻譯
+        </div>
+        <div class="nav-item" onclick="switchTab('kids', this)">
+            <span class="nav-icon"><i class="fas fa-child"></i></span> 任務
+        </div>
+        <div class="nav-item" onclick="switchTab('tools', this)">
+            <span class="nav-icon"><i class="fas fa-suitcase"></i></span> 工具
+        </div>
+    </nav>
+
+    <script>
+        // 1. Tab Switching Logic
+        function switchTab(tabId, navElement) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            navElement.classList.add('active');
+            
+            window.scrollTo(0,0);
+        }
+
+        // 2. Plan A/B Logic
+        function switchPlan(plan, btnElement) {
+            document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
+            document.getElementById('plan-A').classList.remove('active');
+            document.getElementById('plan-B').classList.remove('active');
+            document.getElementById('plan-' + plan).classList.add('active');
+        }
+
+        // 3. Countdown Logic
+        function updateCountdown() {
+            const tripDate = new Date('2026-03-29T00:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = tripDate - now;
+
+            if (distance < 0) {
+                document.getElementById("countdown").innerHTML = "旅程進行中！Have Fun!";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            document.getElementById("countdown").innerHTML = `距離出發還有: <span style="color:white; font-size:16px;">${days}</span> 天`;
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // 4. Mission & Packing List System (with LocalStorage)
+        const missions = [
+            {id: 'm1', text: '在機場拍一張飛機照片', sub: 'Day 1 / Day 7'},
+            {id: 'm2', text: '吃一碗宮寬麵 (Kishimen)', sub: 'Day 2 熱田神宮'},
+            {id: 'm3', text: '在樂高樂園換到一個 Minifigure', sub: 'Day 3'},
+            {id: 'm4', text: '看到海豚跳起來', sub: 'Day 4 水族館'},
+            {id: 'm5', text: '找到一個忍者 (或武將隊)', sub: 'Day 4/6 名城或犬山'},
+            {id: 'm6', text: '用日文說「謝謝」(Arigato)', sub: 'Anytime'}
+        ];
+
+        const packingItems = [
+            {id: 'p1', text: '護照 (3本)', sub: '效期需 > 6個月'},
+            {id: 'p2', text: 'VJW QR Code 截圖', sub: '每人一份'},
+            {id: 'p3', text: '信用卡 & 日幣現金', sub: '海外回饋高者佳'},
+            {id: 'p4', text: '兒童常備藥', sub: '退燒、止瀉、過敏'},
+            {id: 'p5', text: '網卡 / Roaming 開通', sub: '確認訊號'}
+        ];
+
+        function renderChecklist(containerId, items, prefix) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            items.forEach(item => {
+                const isChecked = localStorage.getItem(prefix + item.id) === 'true';
+                
+                const div = document.createElement('div');
+                div.className = `mission-item ${isChecked ? 'completed' : ''}`;
+                div.onclick = () => toggleCheck(prefix + item.id, div);
+                
+                div.innerHTML = `
+                    <div class="mission-checkbox"><i class="fas fa-check"></i></div>
+                    <div class="mission-text">
+                        <strong>${item.text}</strong>
+                        <span>${item.sub}</span>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function toggleCheck(storageKey, element) {
+            const currentState = localStorage.getItem(storageKey) === 'true';
+            const newState = !currentState;
+            localStorage.setItem(storageKey, newState);
+            
+            if(newState) {
+                element.classList.add('completed');
+            } else {
+                element.classList.remove('completed');
+            }
+        }
+
+        // Initialize Lists
+        renderChecklist('mission-list', missions, 'trip_mission_');
+        renderChecklist('packing-list', packingItems, 'trip_pack_');
+
+    </script>
+</body>
+</html>
