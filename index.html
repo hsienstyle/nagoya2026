@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>名古屋親子賞櫻 (v6.4 語音版)</title>
+    <title>名古屋親子賞櫻 (v9.0 完整版)</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
@@ -13,6 +13,8 @@
             --accent-color: #CCA43B; /* 星宇金 */
             --sakura-color: #FF6B81; /* 櫻花粉 */
             --lego-color: #0984E3;   /* 樂高藍 */
+            --zoo-color: #27AE60;    /* 動物園綠 */
+            --ocean-color: #2980B9;  /* 水族館藍 */
             --sister-color: #9B59B6; /* 姐姐紫 */
             --twin-color: #F39C12;   /* 雙寶橘 */
             --text-main: #333333;
@@ -83,6 +85,8 @@
         .day-card.sakura { border-top-color: var(--sakura-color); }
         .day-card.move { border-top-color: var(--accent-color); }
         .day-card.lego { border-top-color: var(--lego-color); }
+        .day-card.zoo { border-top-color: var(--zoo-color); }
+        .day-card.history { border-top-color: #fdcb6e; }
 
         .day-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px; }
         .day-date { font-weight: 800; font-size: 16px; color: var(--primary-color); }
@@ -170,7 +174,7 @@
 <body>
 
     <header>
-        <h1>Nagoya 2026 <span class="member-tag" style="background:var(--accent-color); color:white; border:none;">v6.4 🔊</span></h1>
+        <h1>Nagoya 2026 <span class="member-tag" style="background:var(--accent-color); color:white; border:none;">v9.0</span></h1>
         <div class="member-tags">
             <span class="member-tag sis"><i class="fas fa-girl"></i> 姐姐(9)</span>
             <span class="member-tag twin"><i class="fas fa-robot"></i> 雙胞胎(5)</span>
@@ -199,6 +203,13 @@
                 <div class="activity-item">
                     <div class="time-badge">19:30</div>
                     <div class="card-content">
+                        <div class="place-name">晚餐：長明燈橫丁 <span class="tag tag-food">機場</span></div>
+                        <div class="desc">昭和風情美食街 (拉麵/親子丼)。</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="time-badge">20:30</div>
+                    <div class="card-content">
                         <div class="place-name">Comfort Hotel 機場 <span class="tag tag-move">住宿</span></div>
                         <div class="desc">步行可達。</div>
                         <a href="https://www.google.com/maps/search/?api=1&query=Comfort+Hotel+Central+International+Airport" target="_blank" class="nav-btn"><i class="fas fa-bed"></i> 飯店導航</a>
@@ -209,7 +220,7 @@
             <div class="day-card sakura">
                 <div class="day-header">
                     <span class="day-date">Day 2 | 3/30 (一)</span>
-                    <span>🌸 神宮與賞櫻</span>
+                    <span>🌸 大須與鶴舞</span>
                 </div>
                 <div class="activity-item">
                     <div class="time-badge">09:30</div>
@@ -220,18 +231,18 @@
                     </div>
                 </div>
                 <div class="activity-item">
-                    <div class="time-badge">11:00</div>
+                    <div class="time-badge">12:00</div>
                     <div class="card-content">
-                        <div class="place-name">熱田神宮 <span class="tag tag-spot">散策</span></div>
-                        <div class="desc">午餐：宮寬麵 (Kishimen)。</div>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Atsuta+Jingu" target="_blank" class="nav-btn"><i class="fas fa-torii-gate"></i> 神宮地圖</a>
+                        <div class="place-name">大須商店街 <span class="tag tag-food">邊走邊吃</span></div>
+                        <div class="desc">午餐：炸雞、鯛魚燒、異國料理。</div>
+                        <a href="https://maps.google.com/?cid=7453011459785295429&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQ0" target="_blank" class="nav-btn"><i class="fas fa-store"></i> 商店街</a>
                     </div>
                 </div>
                 <div class="activity-item">
-                    <div class="time-badge">16:00</div>
+                    <div class="time-badge">15:00</div>
                     <div class="card-content">
-                        <div class="place-name">鶴舞公園 <span class="tag tag-spot">賞櫻</span></div>
-                        <div class="desc">適合小孩跑跳。</div>
+                        <div class="place-name">鶴舞公園 <span class="tag tag-spot">櫻花名所</span></div>
+                        <div class="desc">避開週一動物園休園，改來此野餐賞櫻。</div>
                         <a href="https://www.google.com/maps/search/?api=1&query=Tsuruma+Park" target="_blank" class="nav-btn"><i class="fas fa-tree"></i> 公園位置</a>
                     </div>
                 </div>
@@ -243,10 +254,10 @@
                     <span>🎢 樂高樂園</span>
                 </div>
                 <div class="activity-item">
-                    <div class="time-badge">09:30</div>
+                    <div class="time-badge">10:00</div>
                     <div class="card-content">
                         <div class="place-name">LEGOLAND Japan <span class="tag tag-spot">重點</span></div>
-                        <div class="desc">全日暢玩。</div>
+                        <div class="desc">全日暢玩 (10:00 開園)。</div>
                         <a href="https://www.google.com/maps/search/?api=1&query=LEGOLAND+Japan" target="_blank" class="nav-btn"><i class="fas fa-map-marked-alt"></i> 樂園地圖</a>
                     </div>
                 </div>
@@ -260,40 +271,60 @@
                 </div>
             </div>
 
-            <div class="day-card" style="border-top-color: #d35400;">
+            <div class="day-card zoo">
                 <div class="day-header">
                     <span class="day-date">Day 4 | 4/1 (三)</span>
-                    <span>🐋 水族館與名城</span>
+                    <span>🐬 晴雨天氣抉擇</span>
                 </div>
-                <div class="activity-item">
-                    <div class="time-badge">09:30</div>
-                    <div class="card-content">
-                        <div class="place-name">名古屋港水族館 <span class="tag tag-spot">景點</span></div>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Nagoya+Port+Aquarium" target="_blank" class="nav-btn"><i class="fas fa-fish"></i> 水族館</a>
+                <div class="toggle-container">
+                    <button class="toggle-btn" onclick="switchDay4('A', this)" style="border-bottom: 3px solid var(--ocean-color);">方案 A (水族館)</button>
+                    <button class="toggle-btn active" onclick="switchDay4('B', this)" style="border-bottom: 3px solid var(--zoo-color);">方案 B (動物園)</button>
+                </div>
+
+                <div id="d4-plan-A" class="plan-content">
+                    <div class="guide-tip" style="background:#EBF5FB; color:#2980B9; padding:8px; font-size:12px; border-radius:8px; margin-bottom:10px;">
+                        <i class="fas fa-umbrella"></i> <strong>雨天/輕鬆方案</strong>：室內設施多，不用曬太陽。
+                    </div>
+                    <div class="activity-item">
+                        <div class="time-badge">09:30</div>
+                        <div class="card-content">
+                            <div class="place-name">名古屋港水族館 <span class="tag tag-spot" style="background:var(--ocean-color); color:white;">看魚</span></div>
+                            <div class="desc">虎鯨表演、企鵝散步。午餐：JETTY美食街。</div>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Nagoya+Port+Aquarium" target="_blank" class="nav-btn"><i class="fas fa-fish"></i> 水族館</a>
+                        </div>
                     </div>
                 </div>
-                <div class="activity-item">
-                    <div class="time-badge">12:45</div>
-                    <div class="card-content">
-                        <div class="place-name">LaLaport 名古屋港 <span class="tag tag-food">午餐</span></div>
-                        <div class="desc">3F 美食街。</div>
-                        <span class="tag tag-warn">⚠️ 注意用餐時間</span>
-                        <a href="https://www.google.com/maps/search/?api=1&query=LaLaport+Nagoya+Minato+AQULS" target="_blank" class="nav-btn"><i class="fas fa-utensils"></i> LaLaport</a>
+
+                <div id="d4-plan-B" class="plan-content active">
+                    <div class="guide-tip" style="background:#E9F7EF; color:#27AE60; padding:8px; font-size:12px; border-radius:8px; margin-bottom:10px;">
+                        <i class="fas fa-sun"></i> <strong>晴天/櫻花方案</strong>：需步行，記得穿好走的鞋。
+                    </div>
+                    <div class="activity-item">
+                        <div class="time-badge">09:30</div>
+                        <div class="card-content">
+                            <div class="place-name">東山動植物園 <span class="tag tag-spot" style="background:var(--zoo-color); color:white;">看動物</span></div>
+                            <div class="desc">帥哥猩猩 Shabani、無尾熊、植物園櫻花迴廊。</div>
+                            <a href="https://maps.google.com/?cid=7453011459785295429&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQ1" target="_blank" class="nav-btn"><i class="fas fa-hippo"></i> 動物園</a>
+                        </div>
                     </div>
                 </div>
-                <div class="activity-item">
-                    <div class="time-badge">15:00</div>
-                    <div class="card-content">
-                        <div class="place-name">名古屋城 <span class="tag tag-spot">古蹟</span></div>
-                        <div class="desc">務必 <span style="color:red;font-weight:bold;">16:00</span> 前進入本丸御殿。</div>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Nagoya+Castle" target="_blank" class="nav-btn"><i class="fas fa-landmark"></i> 名古屋城</a>
+
+                <div style="border-top: 1px dashed #ddd; margin: 15px 0; padding-top: 15px;">
+                     <div class="activity-item">
+                        <div class="time-badge">17:30</div>
+                        <div class="card-content">
+                            <div class="place-name">名古屋城 <span class="tag tag-spot">夜櫻</span></div>
+                            <div class="desc">欣賞夜間點燈與祭典。</div>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Nagoya+Castle" target="_blank" class="nav-btn"><i class="fas fa-landmark"></i> 名古屋城</a>
+                        </div>
                     </div>
-                </div>
-                 <div class="activity-item">
-                    <div class="time-badge">18:00</div>
-                    <div class="card-content">
-                        <div class="place-name">世界的山將 (金山店) <span class="tag tag-food">晚餐</span></div>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Sekai+no+Yamachan+Kanayama" target="_blank" class="nav-btn"><i class="fas fa-drumstick-bite"></i> 餐廳位置</a>
+                     <div class="activity-item">
+                        <div class="time-badge">19:00</div>
+                        <div class="card-content">
+                            <div class="place-name">金夏芝橫丁 <span class="tag tag-food">晚餐</span></div>
+                            <div class="desc">城下町美食街 (義直/宗春區)。</div>
+                            <a href="https://maps.google.com/?cid=7453011459785295429&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQ2" target="_blank" class="nav-btn"><i class="fas fa-utensils"></i> 美食街</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -301,13 +332,13 @@
             <div class="day-card sakura">
                 <div class="day-header">
                     <span class="day-date">Day 5 | 4/2 (四)</span>
-                    <span>🌸 雙方案擇一</span>
+                    <span>🌸 遠程方案抉擇</span>
                 </div>
                 <div class="toggle-container">
-                    <button class="toggle-btn active" onclick="switchPlan('A', this)">方案 A (岡崎)</button>
-                    <button class="toggle-btn" onclick="switchPlan('B', this)">方案 B (長島)</button>
+                    <button class="toggle-btn active" onclick="switchDay5('A', this)">方案 A (岡崎)</button>
+                    <button class="toggle-btn" onclick="switchDay5('B', this)">方案 B (長島)</button>
                 </div>
-                <div id="plan-A" class="plan-content active">
+                <div id="d5-plan-A" class="plan-content active">
                     <div class="activity-item">
                         <div class="time-badge">09:30</div>
                         <div class="card-content">
@@ -324,7 +355,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="plan-B" class="plan-content">
+                <div id="d5-plan-B" class="plan-content">
                     <div class="activity-item">
                         <div class="time-badge">09:30</div>
                         <div class="card-content">
@@ -342,7 +373,7 @@
                 </div>
             </div>
 
-            <div class="day-card" style="border-top-color: #fdcb6e;">
+            <div class="day-card history">
                  <div class="day-header">
                     <span class="day-date">Day 6 | 4/3 (五)</span>
                     <span>⛩️ 犬山與榮</span>
@@ -361,19 +392,41 @@
                         <a href="https://www.google.com/maps/search/?api=1&query=Pokemon+Center+Nagoya" target="_blank" class="nav-btn"><i class="fas fa-gamepad"></i> Pokemon</a>
                     </div>
                 </div>
+                <div class="activity-item">
+                    <div class="time-badge">19:00</div>
+                    <div class="card-content">
+                        <div class="place-name">綠洲 21 (Oasis 21)</div>
+                        <div class="desc">欣賞水的宇宙船夜景。</div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Oasis+21" target="_blank" class="nav-btn"><i class="fas fa-camera"></i> 夜景</a>
+                    </div>
+                </div>
             </div>
 
             <div class="day-card move">
                  <div class="day-header">
                     <span class="day-date">Day 7 | 4/4 (六)</span>
-                    <span>✈️ 返家</span>
+                    <span>🐈 常滑與返家</span>
+                </div>
+                 <div class="activity-item">
+                    <div class="time-badge">10:00</div>
+                    <div class="card-content">
+                        <div class="place-name">常滑散策 <span class="tag tag-spot">招財貓</span></div>
+                        <div class="desc">陶瓷老街、招財貓大道 (Tokonyan)。</div>
+                        <a href="https://maps.google.com/?cid=7453011459785295429&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQ3" target="_blank" class="nav-btn"><i class="fas fa-cat"></i> 常滑陶瓷步道</a>
+                    </div>
                 </div>
                 <div class="activity-item">
                     <div class="time-badge">14:00</div>
                     <div class="card-content">
                         <div class="place-name">Flight of Dreams</div>
-                        <div class="desc">波音 787 展區。</div>
+                        <div class="desc">機場波音 787 展區 (小孩最後放電)。</div>
                         <a href="https://www.google.com/maps/search/?api=1&query=FLIGHT+OF+DREAMS" target="_blank" class="nav-btn"><i class="fas fa-plane"></i> 飛機公園</a>
+                    </div>
+                </div>
+                 <div class="activity-item">
+                    <div class="time-badge">19:55</div>
+                    <div class="card-content">
+                        <div class="place-name">NGO 起飛返台 <span class="tag tag-move">JX839</span></div>
                     </div>
                 </div>
             </div>
@@ -457,6 +510,12 @@
                     <strong>19:55 ➝ 22:00</strong>
                 </div>
             </div>
+            
+            <h3 class="section-title"><i class="fas fa-exclamation-triangle"></i> 緊急聯絡</h3>
+            <div class="day-card">
+                 <p><strong>🚨 報警</strong>: 110</p>
+                 <p><strong>🚑 救護車</strong>: 119</p>
+            </div>
         </div>
     </div>
 
@@ -494,16 +553,29 @@
             window.scrollTo(0,0);
         }
 
-        // 2. Plan Switch
-        function switchPlan(plan, btnElement) {
-            document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+        // 2. Day 4 Switch (Aquarium/Zoo)
+        function switchDay4(plan, btnElement) {
+            const container = btnElement.parentElement;
+            container.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
             btnElement.classList.add('active');
-            document.getElementById('plan-A').classList.remove('active');
-            document.getElementById('plan-B').classList.remove('active');
-            document.getElementById('plan-' + plan).classList.add('active');
+            
+            document.getElementById('d4-plan-A').classList.remove('active');
+            document.getElementById('d4-plan-B').classList.remove('active');
+            document.getElementById('d4-plan-' + plan).classList.add('active');
         }
 
-        // 3. Countdown
+        // 3. Day 5 Switch (Okazaki/Nagashima)
+        function switchDay5(plan, btnElement) {
+            const container = btnElement.parentElement;
+            container.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            document.getElementById('d5-plan-A').classList.remove('active');
+            document.getElementById('d5-plan-B').classList.remove('active');
+            document.getElementById('d5-plan-' + plan).classList.add('active');
+        }
+
+        // 4. Countdown
         function updateCountdown() {
             const tripDate = new Date('2026-03-29T00:00:00').getTime();
             const now = new Date().getTime();
@@ -518,7 +590,7 @@
         }
         updateCountdown();
 
-        // 4. Mission System
+        // 5. Mission System
         const missionsSis = [
             {id: 's1', text: '幫弟弟拍一張帥氣照片', sub: '任何地點'},
             {id: 's2', text: '幫爸爸媽媽看 Google 地圖', sub: '找路小幫手'},
@@ -528,8 +600,8 @@
 
         const missionsTwin = [
             {id: 't1', text: '今天都有乖乖聽話', sub: '獎勵：玩一次扭蛋！'},
-            {id: 't2', text: '找到紅色的樂高人', sub: '樂高樂園'},
-            {id: 't3', text: '看到飛機跟它說 Hello', sub: 'Flight of Dreams'},
+            {id: 't2', text: '找到巨大的招財貓', sub: 'Day 7 常滑'},
+            {id: 't3', text: '看到帥哥猩猩或是無尾熊', sub: 'Day 4 動物園'},
             {id: 't4', text: '把飯飯吃光光', sub: '不用餵'}
         ];
 
