@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>名古屋親子賞櫻 (v9.1 地圖修正版)</title>
+    <title>名古屋親子賞櫻 (v9.2 氣象穿搭版)</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
@@ -125,6 +125,24 @@
         .plan-content { display: none; }
         .plan-content.active { display: block; animation: fadeIn 0.3s ease; }
 
+        /* Weather & Clothing Module */
+        .weather-summary {
+            background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+            color: #333;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(161, 196, 253, 0.4);
+        }
+        .weather-temp { font-size: 36px; font-weight: 800; margin: 10px 0; color: #2C3E50; }
+        .weather-range { font-size: 14px; opacity: 0.8; }
+        .clothing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+        .clothing-item {
+            background: rgba(255,255,255,0.8); border-radius: 10px; padding: 10px 5px; text-align: center; font-size: 12px; font-weight: 600;
+        }
+        .clothing-icon { font-size: 24px; display: block; margin-bottom: 5px; }
+
         /* Module: Translation Cards */
         .trans-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .trans-card {
@@ -160,7 +178,7 @@
         }
         .nav-item { text-align: center; font-size: 10px; color: #B2BEC3; text-decoration: none; flex: 1; cursor: pointer; -webkit-tap-highlight-color: transparent; }
         .nav-item.active { color: var(--primary-color); font-weight: 700; }
-        .nav-icon { font-size: 22px; display: block; margin-bottom: 4px; transition: transform 0.2s; }
+        .nav-icon { font-size: 20px; display: block; margin-bottom: 4px; transition: transform 0.2s; }
         .nav-item.active .nav-icon { transform: translateY(-2px); color: var(--accent-color); }
 
         .tab-content { display: none; animation: fadeIn 0.2s ease; }
@@ -174,7 +192,7 @@
 <body>
 
     <header>
-        <h1>Nagoya 2026 <span class="member-tag" style="background:var(--accent-color); color:white; border:none;">v9.1</span></h1>
+        <h1>Nagoya 2026 <span class="member-tag" style="background:var(--accent-color); color:white; border:none;">v9.2</span></h1>
         <div class="member-tags">
             <span class="member-tag sis"><i class="fas fa-girl"></i> 姐姐(9)</span>
             <span class="member-tag twin"><i class="fas fa-robot"></i> 雙胞胎(5)</span>
@@ -434,6 +452,44 @@
         </div>
     </div>
 
+    <div id="tab-weather" class="tab-content">
+        <div class="container">
+            <h3 class="section-title"><i class="fas fa-cloud-sun"></i> 名古屋 3月底氣候</h3>
+            
+            <div class="weather-summary">
+                <i class="fas fa-temperature-high" style="font-size:30px; color:#E67E22;"></i>
+                <div class="weather-temp">8°C ~ 18°C</div>
+                <div class="weather-range">早晚溫差大 • 偶有春雨</div>
+            </div>
+
+            <div class="day-card">
+                <p style="font-weight:bold; color:#2C3E50; margin-bottom:10px;">洋蔥式穿搭指南 (Onion Style)</p>
+                <div class="clothing-grid">
+                    <div class="clothing-item">
+                        <i class="fas fa-tshirt clothing-icon" style="color:#BDC3C7;"></i>
+                        內層<br>發熱衣/薄長袖
+                    </div>
+                    <div class="clothing-item">
+                        <i class="fas fa-user-tie clothing-icon" style="color:#F1C40F;"></i>
+                        中層<br>衛衣/針織衫
+                    </div>
+                    <div class="clothing-item">
+                        <i class="fas fa-graduation-cap clothing-icon" style="color:#E74C3C;"></i>
+                        外層<br>防風/輕羽絨
+                    </div>
+                </div>
+                <div style="margin-top:15px; font-size:13px; color:#7F8C8D;">
+                    <i class="fas fa-info-circle"></i> 建議攜帶折疊傘，室內暖氣足，外層容易穿脫最重要。
+                </div>
+            </div>
+
+            <a href="https://tenki.jp/forecast/5/26/5110/23100/" target="_blank" 
+               style="display:block; background:#2980B9; color:white; text-align:center; padding:15px; border-radius:12px; text-decoration:none; font-weight:bold; box-shadow:0 4px 10px rgba(41,128,185,0.3);">
+                <i class="fas fa-external-link-alt"></i> 查看 Tenki.jp 即時預報
+            </a>
+        </div>
+    </div>
+
     <div id="tab-lang" class="tab-content">
         <div class="container">
             <h3 class="section-title"><i class="fas fa-language"></i> 生存日語 (點擊發音 🔊)</h3>
@@ -522,6 +578,9 @@
     <nav class="bottom-nav">
         <div class="nav-item active" onclick="switchTab('schedule', this)">
             <span class="nav-icon"><i class="fas fa-calendar-alt"></i></span> 行程
+        </div>
+        <div class="nav-item" onclick="switchTab('weather', this)">
+            <span class="nav-icon"><i class="fas fa-cloud-sun"></i></span> 氣象
         </div>
         <div class="nav-item" onclick="switchTab('lang', this)">
             <span class="nav-icon"><i class="fas fa-comments"></i></span> 翻譯
